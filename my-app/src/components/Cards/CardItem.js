@@ -1,13 +1,13 @@
 import './CardItem.css'
 
-const CardItem = () => {
+const CardItem = (props) => {
     return(
         <div>
             <div>
-                <img src="../../ ../../../img/abyss.jpg" alt="abyss" />
+                <img style={{width: '200px', height: '200px'}} src={props.data.thumbnail} alt="character-image" />
             </div>
             <div className='card-item-name'>
-                ABYSS
+                {props.data.name}
             </div>
         </div>
     )
