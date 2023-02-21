@@ -33,26 +33,11 @@ class RandomCharacterCard extends Component {
         })
     }
     render() {
-        if (this.state.isFetching) {
-            return <Preloader/>
-        }
-        const {name, description, thumbnail, homepage, wiki} = this.state
         return(
             <Container className='container'>
                 <Row>
                     <Col className='character-card-col-1'>
-                    <div>
-                    <img className='character-card-img' src={thumbnail} alt={thumbnail} />
-                </div>
-                <div className='character-card-col-1-info'>
-                    <h2>{name}</h2>
-                    <p>{description}</p>
-                    <div className='character-card-btn'>
-                        <a href={homepage} className='btn-1'>HOMEPAGE</a>
-                        <a href={wiki} className='btn-2'>WIKI</a>
-                    </div>
-                </div>
-                    
+                        {this.state.isFetching ? <Preloader/> : <View data={this.state}/>}
                     </Col>
                 <Col className='character-card-col-2'>
                     <div>
@@ -77,6 +62,25 @@ class RandomCharacterCard extends Component {
             </Container>
         )
     }
+}
+
+const View = (props) => {
+    const {thumbnail, name, description, homepage, wiki} = props.data
+    return(
+        <>
+            <div>
+                <img className='character-card-img' src={thumbnail} alt='character-photo' />
+            </div>
+            <div className='character-card-col-1-info'>
+                <h2>{name}</h2>
+                <p>{description}</p>
+                <div className='character-card-btn'>
+                    <a href={homepage} className='btn-1'>HOMEPAGE</a>
+                    <a href={wiki} className='btn-2'>WIKI</a>
+                </div>
+            </div>
+        </>
+    )
 }
 
 export default RandomCharacterCard
