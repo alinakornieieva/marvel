@@ -18,7 +18,6 @@ class MarvelService{
     }
     _transformCharacterData = (res) => {
         return {
-            isFetching: false,
             name: res.name,
             description: res.description ? `${res.description.slice(0, 200)}...` : 'No description yet',
             thumbnail: `${res.thumbnail.path}.${res.thumbnail.extension}`,

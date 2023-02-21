@@ -3,41 +3,49 @@ import './RandomCharacterCard.css'
 import {Container, Row, Col} from 'react-bootstrap'
 import MarvelService from '../../services/MarvelService';
 import Preloader from '../Preloader/Preloader';
+import Error from '../Error/Error';
 
 
 class RandomCharacterCard extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            name: null,
-            description: null,
-            thumbnail: null,
-            homepage: null,
-            wiki: null,
-            isFetching: true
+            char: {},
+            isFetching: true,
+            hasError: false
         }
     }
     componentDidMount() {
         this.updateCharacter()
     }
     service = new MarvelService()
-    updateCharacter = () => {
-        const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000)
-        // this.service.getAllCharacters().then(res => console.log(res))
-        // if (this.state.isFetching) {
-        //     return <Preloader/>
-        // }
-        this.service.getCharacter(id).then((res) => {
-            this.setState(res)
-            // console.log(res)
+    onCharLoaded = (char) => {
+        this.setState({
+            char,
+            isFetching: false
         })
     }
+    onError = () => {
+        this.setState({
+            isFetching: false,
+            hasError: true
+        })
+    }
+    updateCharacter = () => {
+        const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000)
+        this.service.getCharacter(id).then(this.onCharLoaded).catch(this.onError)
+    }
     render() {
+        const error = this.state.hasError ? <Error/> : null
+        const fetching = this.state.isFetching ? <Preloader/> : null
+        const content = !(error || fetching) ? <View data={this.state.char}/> : null
         return(
             <Container className='container'>
                 <Row>
                     <Col className='character-card-col-1'>
-                        {this.state.isFetching ? <Preloader/> : <View data={this.state}/>}
+                        {error}
+                        {fetching}
+                        {content}
                     </Col>
                 <Col className='character-card-col-2'>
                     <div>
@@ -57,7 +65,6 @@ class RandomCharacterCard extends Component {
                     </div>
     
                 </Col>
-                
                 </Row>
             </Container>
         )
