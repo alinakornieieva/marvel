@@ -29,7 +29,7 @@ class Cards extends Component{
     render() {
         const loading = this.state.isFetching ? <Preloader/> : null
         const error = this.state.hasError ? <Error/> : null
-        const content = !(loading || error) ? <View data={this.state.charList}/> : null
+        const content = !(loading || error) ? <View data={this.state.charList} recieveCharId={this.props.recieveCharId}/> : null
         return(
             <div className="cards">
                 {loading}
@@ -44,7 +44,7 @@ const View = (props) => {
     return(
         <>
             <div className="cards-grid">
-                {props.data.map(item => <CardItem key={item.id} data={item}/>)}
+                {props.data.map(item => <CardItem key={item.id} data={item}  recieveCharId={props.recieveCharId} />)}
             </div>
             <button className="btn-1">LOAD MORE</button>
         </>
@@ -52,3 +52,5 @@ const View = (props) => {
 }
 
 export default Cards
+
+// box-shadow: rgba(255, 0, 0, 0.16) 0px 10px 36px 0px, rgba(255, 0, 0, 0.06) 0px 0px 0px 1px;

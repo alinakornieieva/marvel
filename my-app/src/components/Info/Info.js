@@ -1,36 +1,96 @@
+import { Component } from 'react'
+import MarvelService from '../../services/MarvelService'
 import './Info.css'
+import Error from '../Error/Error'
+import Preloader from '../Preloader/Preloader'
+import Skeleton from '../Skeleton/Skeleton'
 
-const Info = () => {
-    return(
-        <div className="info">
-            <div className="info-first-section">
-                <img className="info-img" src="../../../img/thor.jpeg" alt="" />
-                <div>
-                <h2>THOR</h2>
-                <div className="info-btns">
-                <button className='btn-1'>HOMEPAGE</button>
-                <button className='btn-2'>WIKI</button>
-                </div>
-                </div>
+class Info extends Component {
+    state = {
+        char: null,
+        isFetching: false,
+        hasError: false
+    }
+    service = new MarvelService()
+    componentDidMount() {
+        // this.service.getCharacter(1011400).then(this.onCharLoaded).catch(this.onError)
+        //this.props.charId
+        // console.log('mount')
+        // this.updateCharacter(1011400)
+    }
+    componentDidUpdate(prevProps) {
+        // debugger 
+        //чтобы посмотреть что в prevprops 
+        // this.service.getCharacter(this.props.charId).then(this.onCharLoaded).catch(this.onError)
+        // console.log('update')
+        if (prevProps.charId !== this.props.charId) {
+            this.updateCharacter()
+        }
+    }
+    updateCharacter = () => {
+        if (!this.props.charId) {
+            return
+        }
+        console.log(this.props.charId)
+        this.onCharLoading()
+        this.service.getCharacter(this.props.charId).then(this.onCharLoaded).catch(this.onError)
+    }
+    onCharLoaded = (char) => {
+        this.setState({
+            char,
+            isFetching: false
+        })
+    }
+    onCharLoading = () => {
+        this.setState({
+            isFetching: true
+        })
+    }
+    onError = () => {
+        this.setState({
+            hasError: true,
+            isFetching: false
+        })
+    }
+    render() {
+        const error = this.state.hasError ? <Error/> : null
+        const fetching = this.state.isFetching ? <Preloader/> : null
+        const content = !(error || fetching || !this.state.char) ? <View data={this.state.char}/> : null
+        const skeleton = error || fetching || this.state.char ? null : <Skeleton/> 
+        return(
+            <div className="info">
+                {error}
+                {fetching}
+                {content}
+                {skeleton}
             </div>
+        )
+    }
+}
 
-            <p>In Norse mythology, Loki is a god or jötunn (or both). Loki is the son of Fárbauti and Laufey, and the brother of Helblindi and Býleistr. By the jötunn Angrboða, Loki is the father of Hel, the wolf Fenrir, and the world serpent Jörmungandr. By Sigyn, Loki is the father of Nari and/or Narfi and with the stallion Svaðilfari as the father, Loki gave birth—in the form of a mare—to the eight-legged horse Sleipnir. In addition, Loki is referred to as the father of Váli in the Prose Edda.</p>
+const View = (props) => {
+    // const comics = 
+    return(
+        <>
+            <div className="info-first-section">
+                    <img className="info-img" src={props.data.thumbnail} alt="character-image" />
+                    <div>
+                    <h2>{props.data.name}</h2>
+                    <div className="info-btns">
+                    <a href={props.data.homepage} className='btn-1'>HOMEPAGE</a>
+                    <a href={props.data.wiki} className='btn-2'>WIKI</a>
+                    </div>
+                    </div>
+                </div>
+                <p>{props.data.description}</p>
+                {props.data.comics.length > 0 ? <>
                 <div className='info-comics'>Comics:</div>
-                <ul>
-                    <li>All-Winners Squad: Band of Heroes (2011) #3</li>
-                    <li>Alpha Flight (1983) #50</li>
-                    <li>Amazing Spider-Man (1999) #503</li>
-                    <li>Amazing Spider-Man (1999) #504</li>
-                    <li>AMAZING SPIDER-MAN VOL. 7: BOOK OF EZEKIEL TPB (Trade Paperback)</li>
-                    <li>Amazing-Spider-Man: Worldwide Vol. 8 (Trade Paperback)</li>
-                    <li>Asgardians Of The Galaxy Vol. 2: War Of The Realms (Trade Paperback)</li>
-                    <li>Vengeance (2011) #4</li>
-                    <li>Avengers (1963) #1</li>
-                    <li>Avengers (1963) #1</li>
-                </ul>
-            <div>Please select a character to see information</div>
-            {/* </div>     */}
-        </div>
+                    <ul>
+                        {props.data.comics.map((item, i) => <li key={i}>{item.name}</li>) }
+                    </ul></> : null
+                }
+                {/* {props.data.comics ? <div>have</div> : null } */}
+        </>
     )
 }
 
