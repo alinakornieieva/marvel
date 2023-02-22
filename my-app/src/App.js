@@ -5,6 +5,7 @@ import Cards from './components/Cards/Cards';
 import RandomCharacterCard from './components/RandomCharacterCard/RandomCharacterCard';
 import Header from './components/Header/Header';
 import Info from './components/Info/Info';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 
 
 class App extends Component {
@@ -20,10 +21,16 @@ class App extends Component {
     return (
       <div className="App">
         <Header/>
-        <RandomCharacterCard/>
+        <ErrorBoundary>
+          <RandomCharacterCard/>
+        </ErrorBoundary>
         <div className='cards-info'>
-        <Cards recieveCharId={this.recieveCharId}/>
-        <Info charId={this.state.selectedChar}/>
+          <ErrorBoundary>
+            <Cards recieveCharId={this.recieveCharId}/>
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <Info charId={this.state.selectedChar}/>
+          </ErrorBoundary>
         </div>
       </div>
     );
