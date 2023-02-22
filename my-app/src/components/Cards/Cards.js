@@ -44,7 +44,7 @@ const View = (props) => {
     return(
         <>
             <div className="cards-grid">
-                {props.data.map(item => <CardItem data={item}/>)}
+                {props.data.map(item => <CardItem key={item.id} data={item}/>)}
             </div>
             <button className="btn-1">LOAD MORE</button>
         </>
