@@ -25,6 +25,11 @@ class RandomCharacterCard extends Component {
             isFetching: false
         })
     }
+    onCharLoading = () => {
+        this.setState({
+            isFetching: true
+        })
+    }
     onError = () => {
         this.setState({
             isFetching: false,
@@ -33,6 +38,7 @@ class RandomCharacterCard extends Component {
     }
     updateCharacter = () => {
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000)
+        this.onCharLoading()
         this.service.getCharacter(id).then(this.onCharLoaded).catch(this.onError)
     }
     render() {

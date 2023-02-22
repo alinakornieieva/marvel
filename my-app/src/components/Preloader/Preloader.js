@@ -4,7 +4,7 @@ import './Preloader.css'
 const Preloader = () => {
     return(
         <div className='preloader'>
-            <img src={loader} alt="loader" />
+            <img src={loader} style={{display: 'block', margin: '0 auto'}} alt="loader" />
         </div>
     )
 }
