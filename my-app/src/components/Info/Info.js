@@ -31,7 +31,6 @@ class Info extends Component {
         if (!this.props.charId) {
             return
         }
-        console.log(this.props.charId)
         this.onCharLoading()
         this.service.getCharacter(this.props.charId).then(this.onCharLoaded).catch(this.onError)
     }
@@ -69,11 +68,10 @@ class Info extends Component {
 }
 
 const View = (props) => {
-    // const comics = 
     return(
         <>
             <div className="info-first-section">
-                    <img className="info-img" src={props.data.thumbnail} alt="character-image" />
+                    <img className="info-img" src={props.data.thumbnail} alt={props.data.name} />
                     <div>
                     <h2>{props.data.name}</h2>
                     <div className="info-btns">
@@ -89,7 +87,6 @@ const View = (props) => {
                         {props.data.comics.map((item, i) => <li key={i}>{item.name}</li>) }
                     </ul></> : null
                 }
-                {/* {props.data.comics ? <div>have</div> : null } */}
         </>
     )
 }

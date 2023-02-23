@@ -12,7 +12,7 @@ class CardItem extends Component {
         return(
             <div onClick={this.onCardClick}>
                 <div>
-                    <img style={{width: '200px', height: '200px'}} src={this.props.data.thumbnail} alt="character-image" />
+                    <img style={{width: '200px', height: '200px'}} src={this.props.data.thumbnail} alt={this.props.data.name} />
                 </div>
                 <div className='card-item-name'>
                     {this.props.data.name}

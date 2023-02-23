@@ -82,7 +82,7 @@ const View = (props) => {
     return(
         <>
             <div>
-                <img className='character-card-img' src={thumbnail} alt='character-photo' />
+                <img className='character-card-img' src={thumbnail} alt={name} />
             </div>
             <div className='character-card-col-1-info'>
                 <h2>{name}</h2>

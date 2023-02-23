@@ -28,4 +28,7 @@
   box-sizing: border-box;
   width: 98.84px;
 }
+.btn-1:disabled{
+  opacity: 0.6;
+}
 
