@@ -1,4 +1,5 @@
 import { Component } from "react"
+import PropTypes from 'prop-types'
 import MarvelService from "../../services/MarvelService"
 import Preloader from "../Preloader/Preloader"
 import CardItem from "./CardItem"
@@ -81,6 +82,10 @@ const View = (props) => {
             disabled={props.newItemsLoading}>LOAD MORE</button>
         </>
     )
+}
+
+Cards.propTypes = {
+    recieveCharId: PropTypes.func
 }
 
 export default Cards

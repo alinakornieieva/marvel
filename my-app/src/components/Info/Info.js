@@ -1,4 +1,5 @@
 import { Component } from 'react'
+import PropTypes from 'prop-types';
 import MarvelService from '../../services/MarvelService'
 import './Info.css'
 import Error from '../Error/Error'
@@ -89,6 +90,10 @@ const View = (props) => {
                 }
         </>
     )
+}
+
+Info.propTypes = {
+    charId: PropTypes.number
 }
 
 export default Info
