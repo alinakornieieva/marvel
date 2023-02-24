@@ -70,18 +70,45 @@ class Cards extends Component{
     }
 }
 
-const View = (props) => {
-    return(
-        <>
-            <div className="cards-grid">
-                {props.data.map(item => <CardItem key={item.id} data={item}  recieveCharId={props.recieveCharId} />)}
-            </div>
-            <button className="btn-1" 
-            style={{display: props.listEnd ? 'none' : 'block'}}
-            onClick={() => props.onRequest(props.offset)}
-            disabled={props.newItemsLoading}>LOAD MORE</button>
-        </>
-    )
+class View extends Component {
+    itemRef = []
+    setRef = (ref) => {
+        this.itemRef.push(ref)
+    }
+    // onCardClick = () => {
+    //     // debugger
+    //     this.props.recieveCharId(this.props.data.id)
+    //     // console.log(this.props.data)
+    // }
+    onFocus = (id) => {
+        this.itemRef.forEach(item => item.classList.remove('selected-card'))  
+        this.itemRef[id].classList.add('selected-card')
+    }
+    render() {
+        return(
+            <>
+                <div className="cards-grid">
+                    {this.props.data.map((item, i)=>
+                      <div ref={this.setRef}
+                      key={item.id}
+                      onClick={() => {
+                        this.onFocus(i)
+                        this.props.recieveCharId(item.id)}}> 
+                    <img style={{width: '200px', height: '200px'}} src={item.thumbnail} alt={item.name} />
+                    <div className='card-item-name'>
+                        {item.name}
+                    </div>
+                </div>
+                      )}
+    
+                </div>
+                <button className="btn-1" 
+                style={{display: this.props.listEnd ? 'none' : 'block'}}
+                onClick={() => this.props.onRequest(this.props.offset)}
+                disabled={this.props.newItemsLoading}>LOAD MORE</button>
+            </>
+        )
+    }
 }
 
 Cards.propTypes = {
