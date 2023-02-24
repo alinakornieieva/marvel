@@ -21,19 +21,10 @@ class CardItem extends Component {
     //     // this.itemRefs[id].focus()
     // }
     render() {
-        console.log(this.itemRefs)
         return(
             <div ref={this.setRef} className='main-click-div' onClick={this.onCardClick}> 
-                    <img style={{width: '200px', height: '200px'}} src={this.props.data.thumbnail} alt={this.props.data.name} />
-                {/* <div>
-                </div> */}
-                <div className='card-item-name' 
-                // ref={this.setRef} 
-                // onClick={() => {
-                //     this.onCardClick()
-                //     this.focusOnCard(this.props.i)
-                //     }}
-                    >
+                <img style={{width: '200px', height: '200px'}} src={this.props.data.thumbnail} alt={this.props.data.name} />
+                <div className='card-item-name'>
                     {this.props.data.name}
                 </div>
             </div>
